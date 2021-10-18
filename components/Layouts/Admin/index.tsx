@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Container } from '@mui/material'
+import { Box, Container, Toolbar } from '@mui/material'
 import AdminSidebar from './Sidebar'
 import AdminHeader from './Header'
 
@@ -11,7 +11,10 @@ const AdminLayout: React.FC = ({ children }) => {
       <AdminHeader />
       <Box sx={{ display: 'flex' }}>
         <AdminSidebar open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        <Container>{children}</Container>
+        <Container>
+          <Toolbar />
+          <Box sx={{ my: 2 }}>{children}</Box>
+        </Container>
       </Box>
     </div>
   )
