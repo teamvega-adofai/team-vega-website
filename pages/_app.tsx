@@ -1,11 +1,17 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
+import { Page } from '../layout'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps }
+}: AppProps & { Component: Page }) {
+  const getLayout = Component.getLayout || ((page) => page)
+
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
     </SessionProvider>
   )
 }
