@@ -5,8 +5,9 @@ import { requireAdmin } from '../../../../utils/auth'
 import { Page as PageType } from '@prisma/client'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { Delete, Refresh } from '@mui/icons-material'
+import { Delete, Edit, Refresh } from '@mui/icons-material'
 import { useRefresh } from '../../../../utils/refresh'
+import Link from 'next/link'
 
 type Props = {
   page: PageType
@@ -41,6 +42,15 @@ const PageEdit: Page<Props> = ({ page }) => {
           </Button>
         </Stack>
       </Box>
+      <Link
+        passHref
+        href={'/admin/pages/[id]/editor'}
+        as={`/admin/pages/${page.id}/editor`}
+      >
+        <Button variant="outlined" fullWidth startIcon={<Edit />}>
+          수정하기
+        </Button>
+      </Link>
     </div>
   )
 }

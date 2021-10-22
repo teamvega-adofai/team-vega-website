@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { Page } from '../layout'
+import 'grapesjs/dist/css/grapes.min.css'
 import NextNProgress from 'nextjs-progressbar'
 
 function MyApp({

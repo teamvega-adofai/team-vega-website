@@ -17,6 +17,9 @@
     "@mui/styled-engine": "^5.0.1",
     "@next-auth/prisma-adapter": "^0.5.2-next.15",
     "@prisma/client": "^3.3.0",
+    "grapesjs": "^0.15.3-rc.2",
+    "grapesjs-preset-webpage": "^0.1.11",
+    "grapesjs-react": "^4.0.1-alpha",
     "next": "11.1.2",
     "next-auth": "^4.0.0-beta.4",
     "nextjs-progressbar": "^0.0.11",
@@ -25,6 +28,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.30",
+    "axios": "^0.23.0",
     "eslint": "8.0.1",
     "eslint-config-next": "11.1.2",
     "prettier": "^2.4.1",

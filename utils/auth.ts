@@ -1,5 +1,17 @@
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, NextApiHandler } from 'next'
 import { getSession } from 'next-auth/react'
+
+export function requireAdminApi<T = any>(
+  handler: NextApiHandler<T>
+): NextApiHandler {
+  return async (req, res) => {
+    const session = await getSession({ req })
+    if (!session?.user.admin) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
+    return handler(req, res)
+  }
+}
 
 export function requireAdmin<PropsType>(
   get: GetServerSideProps<PropsType>
