@@ -1,8 +1,21 @@
 import React from 'react'
-import { AppBar, Chip, Link, Toolbar } from '@mui/material'
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Chip,
+  IconButton,
+  Link,
+  Toolbar,
+  Tooltip
+} from '@mui/material'
 import NextLink from 'next/link'
+import { useSession } from 'next-auth/react'
 
 const AdminHeader: React.FC = () => {
+  const [accountMenuOpen, setAccountMenuOpen] = React.useState(false)
+  const sess = useSession()
+
   return (
     <>
       <AppBar
@@ -25,6 +38,19 @@ const AdminHeader: React.FC = () => {
               />
             </Link>
           </NextLink>
+          <Box sx={{ flexGrow: 1 }} />
+          <Tooltip title={sess.data?.user.name || ''}>
+            <IconButton
+              onClick={() => setAccountMenuOpen(true)}
+              size="small"
+              sx={{ ml: 2 }}
+            >
+              <Avatar
+                src={sess.data?.user.image || ''}
+                sx={{ width: 32, height: 32 }}
+              />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
     </>
