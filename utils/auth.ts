@@ -12,7 +12,16 @@ export const requireAdmin = (get: GetServerSideProps): GetServerSideProps => {
       }
     }
 
-    if (!session?.user?.admin) {
+    if (!session?.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/api/auth/signin'
+        }
+      }
+    }
+
+    if (!session.user.admin) {
       return redirect
     }
 
