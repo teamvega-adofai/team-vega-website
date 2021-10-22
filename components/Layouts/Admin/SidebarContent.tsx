@@ -17,7 +17,7 @@ const SidebarContent: React.FC = () => {
           <ListItemText primary="대시보드" />
         </ListItem>
       </Link>
-      <Link href="/admin/pages" passHref>
+      <Link href={'/admin/pages'} passHref>
         <ListItem button selected={router.pathname === '/pages'} component="a">
           <ListItemIcon>
             <Pages />
