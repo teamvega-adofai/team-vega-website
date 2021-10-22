@@ -57,3 +57,10 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Page {
+    id String @id @default(cuid())
+    title String
+    slug String
+    data Json
+}

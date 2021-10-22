@@ -18,7 +18,11 @@ const SidebarContent: React.FC = () => {
         </ListItem>
       </Link>
       <Link href={'/admin/pages'} passHref>
-        <ListItem button selected={router.pathname === '/pages'} component="a">
+        <ListItem
+          button
+          selected={router.pathname.startsWith('/admin/pages')}
+          component="a"
+        >
           <ListItemIcon>
             <Pages />
           </ListItemIcon>

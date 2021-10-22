@@ -1,7 +1,9 @@
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
 
-export const requireAdmin = (get: GetServerSideProps): GetServerSideProps => {
+export function requireAdmin<PropsType>(
+  get: GetServerSideProps<PropsType>
+): GetServerSideProps<PropsType> {
   return async (context) => {
     const session = await getSession(context)
 
