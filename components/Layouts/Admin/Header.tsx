@@ -17,7 +17,8 @@ const AdminHeader: React.FC = () => {
               <Chip
                 sx={{
                   borderColor: '#fff',
-                  color: '#fff'
+                  color: '#fff',
+                  cursor: 'pointer'
                 }}
                 variant="outlined"
                 label="Admin"
