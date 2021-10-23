@@ -4,6 +4,7 @@ import { adminLayout } from '../../../../components/Layouts/Admin'
 import { requireAdmin } from '../../../../utils/auth'
 import { Page as PageType } from '@prisma/client'
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -19,6 +20,8 @@ import { Delete, Edit, Refresh } from '@mui/icons-material'
 import { useRefresh } from '../../../../utils/refresh'
 import Link from 'next/link'
 import prisma from '../../../../utils/prisma'
+import axios from 'axios'
+import Router from 'next/router'
 
 type Props = {
   page: PageType
@@ -27,21 +30,51 @@ type Props = {
 const PageEdit: Page<Props> = ({ page }) => {
   const [refreshing, refresh] = useRefresh()
   const [deleteDialog, setDeleteDialog] = React.useState(false)
+  const [deleting, setDeleting] = React.useState(false)
+  const [deleteError, setDeleteError] = React.useState('')
 
   return (
     <div>
       <Dialog open={deleteDialog}>
         <DialogTitle>페이지 삭제</DialogTitle>
         <DialogContent>
+          {deleteError && (
+            <Alert sx={{ mb: 2 }} severity="error">
+              {deleteError}
+            </Alert>
+          )}
           <DialogContentText>
             페이지를 삭제할까요? 삭제한 페이지는 복구 불가능합니다.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" onClick={() => setDeleteDialog(false)}>
+          <Button
+            disabled={deleting}
+            color="primary"
+            onClick={() => setDeleteDialog(false)}
+          >
             취소
           </Button>
-          <Button color="error">삭제</Button>
+          <LoadingButton
+            loading={deleting}
+            color="error"
+            onClick={async () => {
+              setDeleting(true)
+              try {
+                await axios.delete(`/api/admin/pages/${page.id}`)
+                await Router.push('/admin/pages')
+              } catch (e: any) {
+                if (e?.response?.data?.error) {
+                  setDeleteError(e.response.data.error)
+                } else {
+                  setDeleteError(`${e}`)
+                }
+                setDeleting(false)
+              }
+            }}
+          >
+            삭제
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 2 }}>
