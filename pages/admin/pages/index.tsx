@@ -178,7 +178,12 @@ const PageList: Page<Props> = ({ pages }) => {
           </Button>
         </Stack>
       </Box>
-      <List sx={{ border: '1px solid #0000000f', padding: 0 }}>
+      <List
+        sx={{
+          border: pages.length ? '1px solid #0000000f' : 'none',
+          padding: 0
+        }}
+      >
         {pages.map((x: PageType, i) => (
           <Link
             href="/admin/pages/[id]"

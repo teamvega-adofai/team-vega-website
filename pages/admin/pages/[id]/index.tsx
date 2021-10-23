@@ -23,6 +23,7 @@ import { useRefresh } from '../../../../utils/refresh'
 import Link from 'next/link'
 import prisma from '../../../../utils/prisma'
 import axios from 'axios'
+import Router from 'next/router'
 
 type Props = {
   page: PageType
@@ -68,6 +69,8 @@ const PageEdit: Page<Props> = ({ page }) => {
               setDeleting(true)
               try {
                 await axios.delete(`/api/admin/pages/${page.id}`)
+
+                return Router.push('/admin/pages')
               } catch (e: any) {
                 if (e?.response?.data?.error) {
                   setDeleteError(e.response.data.error)
