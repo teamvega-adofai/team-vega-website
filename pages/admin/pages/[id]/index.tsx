@@ -12,7 +12,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  InputAdornment,
   Stack,
+  TextField,
   Typography
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
@@ -32,6 +34,10 @@ const PageEdit: Page<Props> = ({ page }) => {
   const [deleteDialog, setDeleteDialog] = React.useState(false)
   const [deleting, setDeleting] = React.useState(false)
   const [deleteError, setDeleteError] = React.useState('')
+  const [title, setTitle] = React.useState(page.title)
+  const [slug, setSlug] = React.useState(page.slug)
+  const [editing, setEditing] = React.useState(false)
+  const [validationErrors, setValidationErrors] = React.useState<any>({})
 
   return (
     <div>
@@ -61,8 +67,7 @@ const PageEdit: Page<Props> = ({ page }) => {
             onClick={async () => {
               setDeleting(true)
               try {
-                await axios.delete(`/api/admin/pages/${page.id}`)
-                await Router.push('/admin/pages')
+                await axios.patch(`/api/admin/pages/${page.id}`, {})
               } catch (e: any) {
                 if (e?.response?.data?.error) {
                   setDeleteError(e.response.data.error)
@@ -102,15 +107,87 @@ const PageEdit: Page<Props> = ({ page }) => {
           </Button>
         </Stack>
       </Box>
-      <Link
-        passHref
-        href={'/admin/pages/[id]/editor'}
-        as={`/admin/pages/${page.id}/editor`}
-      >
-        <Button variant="outlined" fullWidth startIcon={<Edit />}>
-          수정하기
-        </Button>
-      </Link>
+
+      <Stack spacing={2} direction="column">
+        <TextField
+          required
+          autoFocus
+          fullWidth
+          label="타이틀"
+          variant="standard"
+          sx={{ mt: 1 }}
+          value={title}
+          onChange={(e) => {
+            if (e.target.value) {
+              setValidationErrors({
+                ...validationErrors,
+                title: ''
+              })
+            } else if (!e.target.value) {
+              setValidationErrors({
+                ...validationErrors,
+                title: '필수 필드입니다'
+              })
+            }
+            setTitle(e.target.value)
+          }}
+          disabled={editing}
+          error={!!validationErrors.title}
+          helperText={validationErrors.title}
+        />
+        <TextField
+          required
+          InputProps={{
+            startAdornment: <InputAdornment position="start">/</InputAdornment>
+          }}
+          disabled={editing}
+          fullWidth
+          value={slug}
+          onChange={(e) => {
+            if (e.target.value) {
+              setValidationErrors({
+                ...validationErrors,
+                slug: ''
+              })
+            } else if (!e.target.value) {
+              setValidationErrors({
+                ...validationErrors,
+                slug: '필수 필드입니다'
+              })
+            }
+            setSlug(e.target.value)
+          }}
+          label="주소"
+          variant="standard"
+          sx={{ mt: 1 }}
+          error={!!validationErrors.slug}
+          helperText={validationErrors.slug}
+        />
+        <Stack direction="row" spacing={2}>
+          <LoadingButton
+            startIcon={<Delete />}
+            loading={editing}
+            variant="outlined"
+            fullWidth
+          >
+            저장하기
+          </LoadingButton>
+          <Link
+            passHref
+            href={'/admin/pages/[id]/editor'}
+            as={`/admin/pages/${page.id}/editor`}
+          >
+            <Button
+              disabled={editing}
+              variant="outlined"
+              fullWidth
+              startIcon={<Edit />}
+            >
+              페이지 편집하기
+            </Button>
+          </Link>
+        </Stack>
+      </Stack>
     </div>
   )
 }
