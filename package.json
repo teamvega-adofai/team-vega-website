@@ -19,7 +19,6 @@
     "@prisma/client": "^3.3.0",
     "grapesjs": "^0.15.3-rc.2",
     "grapesjs-preset-webpage": "^0.1.11",
-    "grapesjs-react": "^4.0.1-alpha",
     "next": "11.1.2",
     "next-auth": "^4.0.0-beta.4",
     "nextjs-progressbar": "^0.0.11",
