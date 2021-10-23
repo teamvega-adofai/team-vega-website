@@ -3,7 +3,17 @@ import { Page } from '../../../../layout'
 import { adminLayout } from '../../../../components/Layouts/Admin'
 import { requireAdmin } from '../../../../utils/auth'
 import { Page as PageType } from '@prisma/client'
-import { Box, Button, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Stack,
+  Typography
+} from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { Delete, Edit, Refresh } from '@mui/icons-material'
 import { useRefresh } from '../../../../utils/refresh'
@@ -16,9 +26,24 @@ type Props = {
 
 const PageEdit: Page<Props> = ({ page }) => {
   const [refreshing, refresh] = useRefresh()
+  const [deleteDialog, setDeleteDialog] = React.useState(false)
 
   return (
     <div>
+      <Dialog open={deleteDialog}>
+        <DialogTitle>페이지 삭제</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            페이지를 삭제할까요? 삭제한 페이지는 복구 불가능 합니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={() => setDeleteDialog(false)}>
+            취소
+          </Button>
+          <Button color="error">삭제</Button>
+        </DialogActions>
+      </Dialog>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 2 }}>
         <Typography variant="h4" sx={{ flexGrow: 1 }}>
           페이지 - {page.title}
@@ -34,6 +59,7 @@ const PageEdit: Page<Props> = ({ page }) => {
             새로고침
           </LoadingButton>
           <Button
+            onClick={() => setDeleteDialog(true)}
             startIcon={<Delete />}
             variant="outlined"
             color="error"
