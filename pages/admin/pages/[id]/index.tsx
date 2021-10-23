@@ -8,6 +8,7 @@ import { LoadingButton } from '@mui/lab'
 import { Delete, Edit, Refresh } from '@mui/icons-material'
 import { useRefresh } from '../../../../utils/refresh'
 import Link from 'next/link'
+import prisma from '../../../../utils/prisma'
 
 type Props = {
   page: PageType
@@ -57,15 +58,24 @@ const PageEdit: Page<Props> = ({ page }) => {
 
 PageEdit.getLayout = adminLayout
 
-export const getServerSideProps = requireAdmin<Props>(async () => {
+export const getServerSideProps = requireAdmin<Props>(async (ctx) => {
+  const id = ctx.query.id as string
+
+  const page = await prisma.page.findUnique({
+    where: {
+      id
+    }
+  })
+
+  if (!page) {
+    return {
+      notFound: true
+    }
+  }
+
   return {
     props: {
-      page: {
-        data: [],
-        id: '12341234',
-        slug: '/test',
-        title: 'Test'
-      }
+      page
     }
   }
 })

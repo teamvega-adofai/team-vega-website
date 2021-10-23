@@ -24,6 +24,8 @@ import { LoadingButton } from '@mui/lab'
 import Link from 'next/link'
 import { useRefresh } from '../../../utils/refresh'
 import prisma from '../../../utils/prisma'
+import axios from 'axios'
+import Router from 'next/router'
 
 type Props = { pages: PageType[] }
 
@@ -106,7 +108,7 @@ const PageList: Page<Props> = ({ pages }) => {
           </Button>
           <LoadingButton
             loading={creating}
-            onClick={() => {
+            onClick={async () => {
               setCreating(true)
               setCreateError('')
               setCreateValidationErrors({})
@@ -130,11 +132,21 @@ const PageList: Page<Props> = ({ pages }) => {
                   return
                 }
 
-                setCreateError('Not implemented.')
+                const { data } = await axios.post<{ id: string }>(
+                  `/api/admin/pages`,
+                  {
+                    title: createTitle,
+                    slug: createSlug
+                  }
+                )
 
-                setCreating(false)
+                return Router.push(`/admin/pages/${data.id}`)
               } catch (e: any) {
-                setCreateError(`${e}`)
+                if (e?.response?.data?.error) {
+                  setCreateError(e.response.data.error)
+                } else {
+                  setCreateError(`${e}`)
+                }
                 setCreating(false)
               }
             }}
@@ -183,7 +195,7 @@ const PageList: Page<Props> = ({ pages }) => {
                   i === pages.length - 1 ? 'none' : '1px solid #0000000f'
               }}
             >
-              <ListItemText primary={x.title} secondary={x.slug} />
+              <ListItemText primary={x.title} secondary={`/${x.slug}`} />
             </ListItem>
           </Link>
         ))}

@@ -7,6 +7,12 @@ const PageData: Page = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  if ((ctx.query.page as string[])[0] === 'api') {
+    return {
+      notFound: true
+    }
+  }
+
   return {
     props: {}
   }
