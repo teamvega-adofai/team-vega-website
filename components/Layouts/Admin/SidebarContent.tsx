@@ -10,7 +10,11 @@ const SidebarContent: React.FC = () => {
   return (
     <List>
       <Link href="/admin" passHref>
-        <ListItem button selected={router.pathname === '/admin'} component="a">
+        <ListItem
+          button
+          selected={router.pathname === '/admin'}
+          component="index"
+        >
           <ListItemIcon>
             <Dashboard />
           </ListItemIcon>
@@ -21,7 +25,7 @@ const SidebarContent: React.FC = () => {
         <ListItem
           button
           selected={router.pathname.startsWith('/admin/pages')}
-          component="a"
+          component="index"
         >
           <ListItemIcon>
             <Pages />

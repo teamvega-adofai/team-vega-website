@@ -3,6 +3,7 @@ import { Editor as GrapesJsEditor } from 'grapesjs'
 import grapesjs from 'grapesjs'
 import axios from 'axios'
 import 'grapesjs-preset-webpage'
+import { loadBlocks } from '../blocks'
 
 const PageEditor: React.FC<{ id: string; data: any }> = ({ id, data }) => {
   const [editor, setEditor] = React.useState<GrapesJsEditor | null>(null)
@@ -52,8 +53,13 @@ const PageEditor: React.FC<{ id: string; data: any }> = ({ id, data }) => {
         }
       })
 
+      loadBlocks(editor)
+
       editor.setComponents(data.components)
+
       editor.setStyle(data.styles)
+
+      setEditor(editor)
     }
   }, [])
 

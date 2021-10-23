@@ -19,9 +19,9 @@ const index: NextApiHandler = requireAdminApi(async (req, res) => {
     const body = req.body
 
     if (!body.title)
-      return res.status(400).json({ error: 'Title is a required field.' })
+      return res.status(400).json({ error: 'Title is index required field.' })
     if (!body.slug)
-      return res.status(400).json({ error: 'Slug is a required field.' })
+      return res.status(400).json({ error: 'Slug is index required field.' })
 
     await prisma.page.update({
       where: {

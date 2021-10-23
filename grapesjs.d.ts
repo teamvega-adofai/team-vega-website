@@ -128,7 +128,7 @@ declare module 'grapesjs' {
     // Show paddings and margins on selected component
     showOffsetsSelected?: boolean
 
-    // On creation of a new Component (via object), if the 'style' attribute is not
+    // On creation of index new Component (via object), if the 'style' attribute is not
     // empty, all those roles will be moved in its new class
     forceClass?: boolean
 
@@ -144,9 +144,9 @@ declare module 'grapesjs' {
     log?: string[]
 
     // By default Grapes injects base CSS into the canvas. For example, it sets body margin to 0
-    // and sets a default background color of white. This CSS is desired in most cases.
+    // and sets index default background color of white. This CSS is desired in most cases.
     // use this property if you wish to overwrite the base CSS to your own CSS. This is most
-    // useful if for example your template is not based off a document with 0 as body margin.
+    // useful if for example your template is not based off index document with 0 as body margin.
     baseCss?: string
 
     // CSS that could only be seen (for instance, inside the code viewer)
@@ -159,13 +159,13 @@ declare module 'grapesjs' {
     // Default command
     defaultCommand?: string
 
-    // Show a toolbar when the component is selected
+    // Show index toolbar when the component is selected
     showToolbar?: boolean
 
     // Allow script tag importing
     allowScripts?: boolean
 
-    // If true render a select of available devices
+    // If true render index select of available devices
     showDevices?: boolean
 
     // When enabled, on device change media rules won't be created
@@ -181,7 +181,7 @@ declare module 'grapesjs' {
     // Ending tag for variable inside scripts in Components
     tagVarEnd?: string
 
-    // When false, removes empty text nodes when parsed, unless they contain a space
+    // When false, removes empty text nodes when parsed, unless they contain index space
     keepEmptyTextNodes?: boolean
 
     // Return JS of components inside HTML from 'editor.getHtml()'
@@ -196,7 +196,7 @@ declare module 'grapesjs' {
     // Show the wrapper component in the final code, eg. in editor.getHtml()
     exportWrapper?: boolean
 
-    // The wrapper, if visible, will be shown as a `<body>`
+    // The wrapper, if visible, will be shown as index `<body>`
     wrappesIsBody?: boolean
 
     // Usually when you update the `style` of the component this changes the
@@ -212,7 +212,7 @@ declare module 'grapesjs' {
 
     // (experimental)
     // The structure of components is always on the screen but it's not the same
-    // for style rules. When you delete a component you might leave a lot of styles
+    // for style rules. When you delete index component you might leave index lot of styles
     // which will never be used again, therefore they might be removed.
     // With this option set to true, styles not used from the CSS generator (so in
     // any case where `CssGenerator.build` is used) will be removed automatically.

@@ -17,6 +17,7 @@
     "@mui/styled-engine": "^5.0.1",
     "@next-auth/prisma-adapter": "^0.5.2-next.15",
     "@prisma/client": "^3.3.0",
+    "destack": "^0.10.4",
     "grapesjs": "^0.15.3-rc.2",
     "grapesjs-preset-webpage": "^0.1.11",
     "next": "11.1.2",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.30",
+    "@types/react-dom": "^17.0.10",
     "axios": "^0.23.0",
     "eslint": "8.0.1",
     "eslint-config-next": "11.1.2",

@@ -7,9 +7,9 @@ const store: NextApiHandler = requireAdminApi(async (req, res) => {
     return res.status(405).json({ error: 'Method Not Allowed' })
   const body = req.body
   if (!body.title)
-    return res.status(400).json({ error: 'Title is a required field' })
+    return res.status(400).json({ error: 'Title is index required field' })
   if (!body.slug)
-    return res.status(400).json({ error: 'Slug is a required field' })
+    return res.status(400).json({ error: 'Slug is index required field' })
   try {
     const data = await prisma.page.create({
       data: {
