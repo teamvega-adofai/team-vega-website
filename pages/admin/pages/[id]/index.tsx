@@ -34,7 +34,7 @@ const PageEdit: Page<Props> = ({ page }) => {
         <DialogTitle>페이지 삭제</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            페이지를 삭제할까요? 삭제한 페이지는 복구 불가능 합니다.
+            페이지를 삭제할까요? 삭제한 페이지는 복구 불가능합니다.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
