@@ -23,7 +23,6 @@ import { useRefresh } from '../../../../utils/refresh'
 import Link from 'next/link'
 import prisma from '../../../../utils/prisma'
 import axios from 'axios'
-import Router from 'next/router'
 
 type Props = {
   page: PageType
@@ -38,6 +37,7 @@ const PageEdit: Page<Props> = ({ page }) => {
   const [slug, setSlug] = React.useState(page.slug)
   const [editing, setEditing] = React.useState(false)
   const [validationErrors, setValidationErrors] = React.useState<any>({})
+  const [error, setError] = React.useState('')
 
   return (
     <div>
@@ -67,7 +67,7 @@ const PageEdit: Page<Props> = ({ page }) => {
             onClick={async () => {
               setDeleting(true)
               try {
-                await axios.patch(`/api/admin/pages/${page.id}`, {})
+                await axios.delete(`/api/admin/pages/${page.id}`)
               } catch (e: any) {
                 if (e?.response?.data?.error) {
                   setDeleteError(e.response.data.error)
@@ -90,7 +90,7 @@ const PageEdit: Page<Props> = ({ page }) => {
         <Stack direction="row" spacing={2}>
           <LoadingButton
             variant="outlined"
-            loading={refreshing}
+            loading={refreshing || editing}
             startIcon={<Refresh />}
             onClick={() => refresh()}
           >
@@ -101,7 +101,7 @@ const PageEdit: Page<Props> = ({ page }) => {
             startIcon={<Delete />}
             variant="outlined"
             color="error"
-            disabled={refreshing}
+            disabled={refreshing || editing}
           >
             삭제하기
           </Button>
@@ -109,6 +109,8 @@ const PageEdit: Page<Props> = ({ page }) => {
       </Box>
 
       <Stack spacing={2} direction="column">
+        {error && <Alert severity="error">{error}</Alert>}
+
         <TextField
           required
           autoFocus
@@ -131,7 +133,7 @@ const PageEdit: Page<Props> = ({ page }) => {
             }
             setTitle(e.target.value)
           }}
-          disabled={editing}
+          disabled={refreshing || editing}
           error={!!validationErrors.title}
           helperText={validationErrors.title}
         />
@@ -140,7 +142,7 @@ const PageEdit: Page<Props> = ({ page }) => {
           InputProps={{
             startAdornment: <InputAdornment position="start">/</InputAdornment>
           }}
-          disabled={editing}
+          disabled={refreshing || editing}
           fullWidth
           value={slug}
           onChange={(e) => {
@@ -166,9 +168,49 @@ const PageEdit: Page<Props> = ({ page }) => {
         <Stack direction="row" spacing={2}>
           <LoadingButton
             startIcon={<Delete />}
-            loading={editing}
+            loading={refreshing || editing}
             variant="outlined"
             fullWidth
+            onClick={async () => {
+              setEditing(true)
+
+              let validationErrors: any = {}
+
+              let validate = false
+
+              if (!title) {
+                validationErrors.title = '필수 필드입니다.'
+                validate = true
+              }
+              if (!slug) {
+                validationErrors.slug = '필수 필드입니다.'
+                validate = true
+              }
+
+              if (validate) {
+                setValidationErrors(validationErrors)
+                setEditing(false)
+                return
+              }
+
+              try {
+                await axios.patch(`/api/admin/pages/${page.id}`, {
+                  title,
+                  slug
+                })
+
+                setEditing(false)
+
+                return refresh()
+              } catch (e: any) {
+                if (e?.response?.data?.error) {
+                  setError(e.response.data.error)
+                } else {
+                  setError(`${e}`)
+                }
+                setEditing(false)
+              }
+            }}
           >
             저장하기
           </LoadingButton>
@@ -178,7 +220,7 @@ const PageEdit: Page<Props> = ({ page }) => {
             as={`/admin/pages/${page.id}/editor`}
           >
             <Button
-              disabled={editing}
+              disabled={refreshing || editing}
               variant="outlined"
               fullWidth
               startIcon={<Edit />}
