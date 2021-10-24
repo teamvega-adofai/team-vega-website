@@ -4,21 +4,14 @@ import grapesjs from 'grapesjs'
 import axios from 'axios'
 import 'grapesjs-preset-webpage'
 import { loadBlocks } from '../blocks'
+import { editorConfig } from '../utils/config'
 
 const PageEditor: React.FC<{ id: string; data: any }> = ({ id, data }) => {
   const [editor, setEditor] = React.useState<GrapesJsEditor | null>(null)
 
   React.useEffect(() => {
     if (!editor) {
-      const editor = grapesjs.init({
-        container: `#page-editor-${id}`,
-        storageManager: {
-          type: 'vega',
-          autoload: true
-        },
-        height: '100%',
-        plugins: ['grapesjs-preset-webpage', 'gjs-blocks-basic']
-      })
+      const editor = grapesjs.init(editorConfig)
 
       editor.StorageManager.add('vega', {
         async load(keys: string[], clb: any, clbErr: any) {
@@ -43,7 +36,7 @@ const PageEditor: React.FC<{ id: string; data: any }> = ({ id, data }) => {
         async store(data: any, clb: any, clbErr: any) {
           try {
             await axios.post(`/api/admin/pages/${id}/store`, {
-              components: JSON.parse(data['gjs-components']),
+              components: editor.getComponents(),
               styles: JSON.parse(data['gjs-styles'])
             })
             clb()
@@ -63,7 +56,7 @@ const PageEditor: React.FC<{ id: string; data: any }> = ({ id, data }) => {
     }
   }, [])
 
-  return <div id={`page-editor-${id}`} />
+  return <div id="page-editor" />
 }
 
 export default PageEditor

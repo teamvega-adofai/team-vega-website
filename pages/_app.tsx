@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react'
 import { Page } from '../layout'
 import 'grapesjs/dist/css/grapes.min.css'
 import NextNProgress from 'nextjs-progressbar'
+import Head from 'next/head'
 
 function MyApp({
   Component,
@@ -13,6 +14,10 @@ function MyApp({
 
   return (
     <SessionProvider session={session}>
+      <div style={{ display: 'none' }} id="grapesjs-headless" />
+      <Head>
+        <title>Team Vega</title>
+      </Head>
       <NextNProgress
         options={{
           easing: 'ease',

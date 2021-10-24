@@ -49,6 +49,7 @@ declare module 'grapesjs' {
   }
 
   export interface Editor {
+    destroy()
     BlockManager: {
       add(id: string, options: Record<string, unknown>): void
     }
@@ -99,6 +100,7 @@ declare module 'grapesjs' {
   export type EditorDragMode = 'absolute' | 'translate'
 
   export interface EditorConfig {
+    headless?: boolean
     /**
      * The html target element.
      */

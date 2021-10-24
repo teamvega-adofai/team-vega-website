@@ -5,6 +5,7 @@ import { Page } from '../../../../layout'
 import { Box } from '@mui/material'
 import prisma from '../../../../utils/prisma'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 
 const PageEditor = dynamic(() => import('../../../../components/PageEditor'), {
   ssr: false
@@ -22,6 +23,9 @@ const Editor: Page<Props> = ({ page }) => {
         height: '100vh'
       }}
     >
+      <Head>
+        <title>Page Editor</title>
+      </Head>
       <PageEditor data={page.data} id={page.id} />
     </Box>
   )

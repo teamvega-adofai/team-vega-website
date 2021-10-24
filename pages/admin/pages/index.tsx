@@ -193,7 +193,7 @@ const PageList: Page<Props> = ({ pages }) => {
           >
             <ListItem
               key={i}
-              component="index"
+              component="a"
               button
               sx={{
                 borderBottom:
